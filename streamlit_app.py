@@ -24,7 +24,7 @@ streamlit.dataframe(fruits_to_show)
 
 #create the repeatable code block(called a function)
 def get_fruityvice_data(this_fruit_choice):
-  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
+  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+this_fruit_choice)
   #take the json version of the response and normalize it
   fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
   #output it the screen as a table
@@ -45,7 +45,7 @@ except URLError as e:
   streamlit.error()
 
 #don't run anything past here while we troubleshoot
-streamlit.stop()
+#streamlit.stop()
 
 streamlit.header("The fruit load list contains")
 #snowflake related functions
@@ -66,7 +66,7 @@ def insert_row_snowflake(new_fruit):
     my_cur.execute("insert into fruit_load_list values ('from streamlit')")
     return 'Thanks for adding' + new_fruit
 
-add_my_fruit = streamlit.text_input('What fruit would you like to add?','jackfruit')
+add_my_fruit = streamlit.text_input('What fruit would you like to add?')
 
 if streamlit.button('Add a Fruit to the list'):
   my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
